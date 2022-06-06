@@ -1,29 +1,17 @@
 const express = require('express');
-const routes = express.Router();
+const router = express.Router();
 
-routes.get('/', (req, res) => {
-    res.send('GET Routes Done');
-});
+const { getAllStudents, getSingleStudent, createStudent, putStudent, patchStudent, deleteStudent } = require('../controllers/StudentController.js');
 
-routes.post('/', (req, res) => {
-    res.send('POST Routes Done');
-});
+// router.get('/', getAllStudents);
+// router.post('/', createStudent);
+// router.get('/:id', getSingleStudent);
+// router.put('/:id', putStudent);
+// router.patch('/:id', patchStudent);
+// router.delete('/:id', deleteStudent);
 
-routes.get('/:id', (req, res) => {
-    res.send('Single STudent Routes Done with id '+req.params.id);
-});
-
-routes.put('/:id', (req, res) => {
-    res.send('PUT Routes Done with id '+req.params.id);
-});
-
-routes.patch('/:id', (req, res) => {
-    res.send('PATCH Routes Done with id '+req.params.id);
-});
-
-routes.delete('/:id', (req, res) => {
-    res.send('DELETE Routes Done with id '+req.params.id);
-});
+router.route('/').get(getAllStudents).post(createStudent);
+router.route('/:id').get(getSingleStudent).put(putStudent).patch(patchStudent).delete(deleteStudent);
 
 
-module.exports = routes;
+module.exports = router;
