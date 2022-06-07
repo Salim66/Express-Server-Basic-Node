@@ -67,47 +67,32 @@ const createStudent = (req, res) => {
 }
 
 // Update Students
-// const putStudent = (req, res) => {
+const updateStudent = (req, res) => {
     
-//     let id = req.params.id;
+    let id = req.params.id;
 
-//     if(students.some(stu => stu.id == id)){
+    if(students.some(stu => stu.id == id)){
 
-//         let data = '';
-//         req.on('data', (chunk) => {
+        students[students.findIndex( stu => stu.id == id )] = {
+                id : id,
+                name : req.body.name,
+                age : req.body.age,
+                skill : req.body.skill,
+            };
 
-//             data += chunk.toString();
-//             console.log(data);
+            fs.writeFileSync(path.join(__dirname, '../data/student.json'), JSON.stringify(students));
 
-//         });
-//         req.on('end', () => {
-            
-//             // students[students.findIndex( stu => stu.id == id )] = {
-//             //     id : id,
-//             //     name : s_data.name,
-//             //     age : s_data.age,
-//             //     skill : s_data.skill,
-//             // };
+            res.status(202).json({
+                message : 'Data Updated Successfully'
+            });
+    }else {
+        res.status(400).json({
+            message : 'Data Not Found!'
+        });
+    }
 
-//             // fs.writeFileSync(path.join(__dirname, '../data/student.json'), JSON.stringify(students));
-
-//             // res.status(202).json({
-//             //     message : 'Data Updated Successfully'
-//             // });
-
-//         });
-//     }else {
-//         res.status(400).json({
-//             message : 'Data Not Found!'
-//         });
-//     }
-
-// }
-
-// Update Students
-const patchStudent = (req, res) => {
-    res.send('Ami studnet update kore felci patch method a');
 }
+
 
 // Delete Students
 const deleteStudent = (req, res) => {
@@ -133,8 +118,7 @@ module.exports = {
     getAllStudents,
     getSingleStudent,
     createStudent,
-    putStudent,
-    patchStudent,
+    updateStudent,
     deleteStudent
 }
 
