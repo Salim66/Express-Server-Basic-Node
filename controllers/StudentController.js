@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Student = require('../models/StudentModel.js');
 
 // import student server
 const students = JSON.parse(fs.readFileSync(path.join(__dirname, '../data/student.json')));
@@ -15,102 +16,65 @@ const createId = () => {
 
 
 // Get all Students
-const getAllStudents = (req, res) => {
-    if(students.length > 0){
-        res.status(200).json(students);
-    }else {
-        res.status(400).json({
-            message : 'No Data Available!'
-        });
-    }
+const getAllStudents = async (req, res) => {
+    
+    let all_data = await Student.find();
+
+    res.status(200).json(all_data);
+
 }
 
 // Get Single Student
-const getSingleStudent = (req, res) => {
+const getSingleStudent = async (req, res) => {
     
     let id = req.params.id;
     
-    if(students.some(data => data.id == id)){
-
-        res.send(students.find(data => data.id == id));
-
-    }else {
-        res.status(400).json({
-            message : 'Data Not Found!'
-        });
-    }
+    let data = await Student.findById(id);
+    res.status(200).json(data);
 
 }
 
 // Create Students
-const createStudent = (req, res) => {
+const createStudent = async (req, res) => {
     
-    if(req.body.name == '' || req.body.age == '' || req.body.skill == ''){
-        res.status(404).json({
-            message : 'All Fields Are Required!'
-        });
-    }else {
-        students.push({
-            id : createId(),
-            name : req.body.name,
-            age : req.body.age,
-            skill : req.body.skill,
-        })
+    await Student.create({
+        name : req.body.name,
+        age : req.body.age,
+        skill : req.body.skill
+    });
 
-        fs.writeFileSync(path.join(__dirname, '../data/student.json'), JSON.stringify(students));
-
-        res.status(201).json({
-            message : 'Data added successfully ):'
-        });
-    }
-
+    res.status(201).json({
+        message: 'Student Added Successfully :)'
+    });
+    
 }
 
 // Update Students
-const updateStudent = (req, res) => {
+const updateStudent = async (req, res) => {
     
     let id = req.params.id;
 
-    if(students.some(stu => stu.id == id)){
+    await Student.findByIdAndUpdate(id, req.body, {
+        new: true
+    });
 
-        students[students.findIndex( stu => stu.id == id )] = {
-                id : id,
-                name : req.body.name,
-                age : req.body.age,
-                skill : req.body.skill,
-            };
-
-            fs.writeFileSync(path.join(__dirname, '../data/student.json'), JSON.stringify(students));
-
-            res.status(202).json({
-                message : 'Data Updated Successfully'
-            });
-    }else {
-        res.status(400).json({
-            message : 'Data Not Found!'
-        });
-    }
+    res.status(200).json({
+        message: 'Student Updated Successfully :)'
+    });
 
 }
 
 
 // Delete Students
-const deleteStudent = (req, res) => {
+const deleteStudent = async (req, res) => {
     
     let id = req.params.id;
 
-    if(students.some(data => data.id == id)){
-        let updated_data = students.filter(data => data.id != id);
-        fs.writeFileSync(path.join(__dirname, '../data/student.json'), JSON.stringify(updated_data));
+    await Student.findByIdAndDelete(id);
 
-        res.status(202).json({
-            message : 'Data deleted successfully ):'
-        });
-    }else {
-        res.status(400).json({
-            message : 'Data Not Found!'
-        });
-    }
+    res.status(202).json({
+        message: "Student Deleted Successfully :)"
+    });
 
 }
 

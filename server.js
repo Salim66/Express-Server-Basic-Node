@@ -2,6 +2,10 @@ const dotenv = require('dotenv').config();
 const express = require('express');
 const { authCheck } = require('./middleware/AuthMiddleware.js');
 const app = express();
+const connectDB = require('./config/db');
+const colors = require('colors');
+
+connectDB();
 
 // Get Server Port
 const PORT = process.env.SERVER_PORT;
