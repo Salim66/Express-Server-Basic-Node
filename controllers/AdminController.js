@@ -25,19 +25,27 @@ const createAdmin = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash_password = await bcrypt.hash(req.body.password, salt); 
 
-    await Admin.create({
-        name : req.body.name,
-        email : req.body.email,
-        cell : req.body.cell,
-        username : req.body.username,
-        location : req.body.location,
-        skill : req.body.skill,
-        password : hash_password,
-    });
-    
-    res.status(201).json({
-        message: 'Admin added successfully :)'
-    });
+    if( !req.body.name || !req.body.email || !req.body.cell || !req.body.cell || !req.body.username ){
+        res.status(400).json({
+            message: 'All fields are required!'
+        });
+    }else {
+        await Admin.create({
+            name : req.body.name,
+            email : req.body.email,
+            cell : req.body.cell,
+            username : req.body.username,
+            location : req.body.location,
+            skill : req.body.skill,
+            password : hash_password,
+        });
+        
+        res.status(201).json({
+            message: 'Admin added successfully :)'
+        });
+    }
+
+
 
 }
 
@@ -63,11 +71,20 @@ const updateAdmin = async (req, res) => {
 // delete admin
 const deleteAdmin = async (req, res) => {
 
-    await Admin.findByIdAndDelete(req.params.id);
+    let delete_data = await Admin.findByIdAndDelete(req.params.id);
 
-    res.status(202).json({
-        message: 'Admin deleted successfully :)'
-    });
+    if( !delete_data ){
+        res.status(400).json({
+            message: 'Data not found!'
+        });
+    }else {
+        let data = await Admin.findByIdAndDelete(req.params.id);
+        res.status(200).json({
+            message: `Delete ${ data.name } data`
+        });
+    }
+
+   
 
 }
 
