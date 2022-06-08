@@ -1,4 +1,5 @@
 const Admin = require('../models/AdminModel.js');
+const bcrypt = require('bcryptjs');
 
 // Get All Admin
 const getAllAdmin = async (req, res) => {
@@ -21,6 +22,9 @@ const getSingleAdmin = async (req, res) => {
 // Create Admin
 const createAdmin = async (req, res) => {
 
+    const salt = await bcrypt.genSalt(10);
+    const hash_password = await bcrypt.hash(req.body.password, salt); 
+
     await Admin.create({
         name : req.body.name,
         email : req.body.email,
@@ -28,7 +32,7 @@ const createAdmin = async (req, res) => {
         username : req.body.username,
         location : req.body.location,
         skill : req.body.skill,
-        password : req.body.password,
+        password : hash_password,
     });
     
     res.status(201).json({
