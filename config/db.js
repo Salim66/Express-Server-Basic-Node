@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const connectMongoDB = async () => {
 
     try {
-        let connect = await mongoose.connect('mongodb+srv://salim:1234567890@mernstackcluster.w5afr.mongodb.net/MERN-Stack?retryWrites=true&w=majority')
+        let connect = await mongoose.connect(process.env.MONGO_DB);
 
         console.log(`MongoDB database connect to our server successfully HOST : ${connect.connection.host}`.bgGreen.black);
 
