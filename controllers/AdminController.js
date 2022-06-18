@@ -88,10 +88,22 @@ const deleteAdmin = async (req, res) => {
 
 }
 
+// Admin Profile
+const adminProfile = (req, res) => {
+    res.json(req.user);
+}
+
+// Admin Home
+const adminHome = (req, res) => {
+    res.json(req.user);
+}
+
 module.exports = {
     getAllAdmin,
     getSingleAdmin,
     createAdmin,
     updateAdmin,
-    deleteAdmin
+    deleteAdmin,
+    adminProfile,
+    adminHome
 }
