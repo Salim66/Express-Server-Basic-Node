@@ -1,26 +1,25 @@
 const Admin = require('../models/AdminModel.js');
 const bcrypt = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
 
 // Get All Admin
-const getAllAdmin = async (req, res) => {
+const getAllAdmin = asyncHandler(async (req, res) => {
 
-    let all_data =  await Admin.find();
-    
+    let all_data =  await Admin.find(); 
     res.status(200).json(all_data);
 
-}
+});
 
 // Get Single Admin
-const getSingleAdmin = async (req, res) => {
+const getSingleAdmin = asyncHandler(async (req, res) => {
 
     let data =  await Admin.findById(req.params.id);
-    
     res.status(200).json(data);
 
-}
+});
 
 // Create Admin
-const createAdmin = async (req, res) => {
+const createAdmin = asyncHandler(async (req, res) => {
 
     const salt = await bcrypt.genSalt(10);
     const hash_password = await bcrypt.hash(req.body.password, salt); 
@@ -47,10 +46,10 @@ const createAdmin = async (req, res) => {
 
 
 
-}
+});
 
 // update Admin
-const updateAdmin = async (req, res) => {
+const updateAdmin = asyncHandler(async (req, res) => {
 
     await Admin.findByIdAndUpdate(req.params.id, {
         name : req.body.name,
@@ -66,10 +65,10 @@ const updateAdmin = async (req, res) => {
         message: 'Admin updated successfully :)'
     });
 
-}
+});
 
 // delete admin
-const deleteAdmin = async (req, res) => {
+const deleteAdmin = asyncHandler(async (req, res) => {
 
     let delete_data = await Admin.findByIdAndDelete(req.params.id);
 
@@ -86,7 +85,7 @@ const deleteAdmin = async (req, res) => {
 
    
 
-}
+})
 
 // Admin Profile
 const adminProfile = (req, res) => {

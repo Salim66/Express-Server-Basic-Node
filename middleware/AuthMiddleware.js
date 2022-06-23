@@ -5,7 +5,7 @@ const Admin = require("../models/AdminModel");
 
 const authCheck = async (req, res, next) => {
     
-
+ 
     if(req.headers.authorization){
 
         // get token

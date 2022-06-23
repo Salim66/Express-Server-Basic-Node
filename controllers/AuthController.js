@@ -23,6 +23,8 @@ const adminLogin = async (req, res) => {
                 expiresIn: "1d"
             });
 
+            console.log(token);
+
             res.status(200).json({
                 id: email_check._id,
                 name: email_check.name,
