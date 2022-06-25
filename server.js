@@ -12,14 +12,34 @@ connectDB();
 // storage
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './media/users/')
+
+        if(file.fieldname == 'photo'){
+            cb(null, './media/users/')
+        }else if(file.fieldname == 'cv'){
+            
+            cb(null, './media/cv/')
+        }
     },
     filename: (req, file, cb) => {
-        let extName = path.extname(file.originalname);
 
-        let fileName = Date.now() + '_' + Math.round(Math.random() * 100000000) + '.' + extName;
+        if(file.fieldname == 'photo'){
+            let extName = path.extname(file.originalname);
 
-        cb(null, fileName);
+            let fileName = Date.now() + '_' + Math.round(Math.random() * 100000000) + '.' + extName;
+
+            cb(null, fileName);
+        }else if(file.fieldname == 'cv'){
+            
+            let date = new Date();
+
+            let dateFormat = date.getDate()+'-'+date.getMonth()+'-'+date.getFullYear();
+
+            let fileName = dateFormat + '-' + file.originalname;
+
+            cb(null, fileName);
+        }
+
+        
     }
 });
 
@@ -29,11 +49,20 @@ const upload = multer({
     limits: (1024*1024),
     fileFilter: (req, file, cb) => {
         
-        if(file.mimetype == 'image/jpeg' || file.mimetype == 'image/jpg' || file.mimetype == 'image/png' || file.mimetype == 'image/svg' || file.mimetype == 'image/gif' || file.mimetype == 'image/webp'){
-            cb(null, true);
-        }else {
-            console.log('File type invalid!');
+        if(file.fieldname == 'photo'){
+            if(file.mimetype == 'image/jpeg' || file.mimetype == 'image/jpg' || file.mimetype == 'image/png' || file.mimetype == 'image/svg' || file.mimetype == 'image/gif' || file.mimetype == 'image/webp'){
+                cb(null, true);
+            }else {
+                console.log('File type invalid!');
+            }
+        }else if(file.fieldname == 'cv'){
+            if(file.mimetype == 'application/pdf'){
+                cb(null, true);
+            }else {
+                console.log('CV format is invalid!');
+            }
         }
+       
 
     }
 });
@@ -60,8 +89,20 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/students/', require('./routes/student.js'));
 app.use('/api/admins/', require('./routes/admin.js'));
 
+// multiple image fields upload
+const cpUpload = upload.fields([
+    {
+        name: 'photo',
+        maxCount: 10
+    },
+    {
+        name: 'cv',
+        maxCount: 1
+    }
+]);
+
 // Upload file
-app.post('/upload', upload.array('photo', 12), (req, res) => {
+app.post('/upload', cpUpload, (req, res) => {
 
     console.log(req.files);
 

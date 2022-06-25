@@ -18,9 +18,16 @@
                         <h3>Upload File</h3>
                         <hr>
                         <form action="http://localhost:5050/upload" method="POST" enctype="multipart/form-data">
-                            <label for="image-upload"><img style="height: 100px; width: 100px;" src="https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1128826884?k=6&m=1128826884&s=170667a&w=0&h=F6kUwTcsLXUojmGFxN2wApEKgjx63zcIshCSOmnfEFs=" alt=""></label>
-                            <input type="file" name="photo" id="image-upload" style="display: none;" multiple />
-                            <div id="preview"></div>
+                            <div class="my-3">
+                                <label for="image-upload"><img style="height: 100px; width: 100px;" src="https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1128826884?k=6&m=1128826884&s=170667a&w=0&h=F6kUwTcsLXUojmGFxN2wApEKgjx63zcIshCSOmnfEFs=" alt=""></label>
+                                <input type="file" name="photo" id="image-upload" style="display: none;" multiple />
+                                <div id="preview"></div>
+                            </div>
+                            <div class="my-3">
+                                <label for="image-upload2"><img style="height: 100px; width: 100px;" src="https://th.bing.com/th/id/R.78401cbcec9415df72793e5539c8963a?rik=kOJxQQx4Dx6OKg&riu=http%3a%2f%2fwww.reviversoft.com%2fblog%2fwp-content%2fuploads%2f2013%2f05%2fCompatibility_Adobe_PDF_Logo.jpg&ehk=C9ZTyeiR84eRfISElm2B9731t604uyWQFuDM%2bMCEPtA%3d&risl=&pid=ImgRaw&r=0" alt=""></label>
+                                <input type="file" name="cv" id="image-upload2" style="display: none;" />
+                            </div>
+                            
                             <br>
                             <button type="submit" class="btn btn-primary">Upload</button>
                         </form>
