@@ -5,25 +5,25 @@ const Admin = require("../models/AdminModel");
 
 const authCheck = async (req, res, next) => {
     
- 
-    if(req.headers.authorization){
+    next();
+    // if(req.headers.authorization){
 
-        // get token
-        const token = req.headers.authorization.split(' ')[1];
+    //     // get token
+    //     const token = req.headers.authorization.split(' ')[1];
 
-        // verify token
-        const { id } = jwt.verify(token, process.env.JWT_SECRET);
+    //     // verify token
+    //     const { id } = jwt.verify(token, process.env.JWT_SECRET);
 
-        // get login user data
-        req.user = await Admin.findById(id);
+    //     // get login user data
+    //     req.user = await Admin.findById(id);
 
-        next()
+    //     next()
 
-    }else {
-        res.json({
-            message : 'Token is not found!'
-        });
-    }
+    // }else {
+    //     res.json({
+    //         message : 'Token is not found!'
+    //     });
+    // }
 
     
 }

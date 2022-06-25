@@ -17,11 +17,13 @@
                     <div class="card-body">
                         <h3>Upload File</h3>
                         <hr>
-                        <label for="image-upload"><img style="height: 100px; width: 100px;" src="https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1128826884?k=6&m=1128826884&s=170667a&w=0&h=F6kUwTcsLXUojmGFxN2wApEKgjx63zcIshCSOmnfEFs=" alt=""></label>
-                        <input type="file" name="file" id="image-upload" style="display: none;" multiple />
-                        <div id="preview"></div>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <form action="http://localhost:5050/upload" method="POST" enctype="multipart/form-data">
+                            <label for="image-upload"><img style="height: 100px; width: 100px;" src="https://media.istockphoto.com/vectors/no-image-vector-symbol-missing-available-icon-no-gallery-for-this-vector-id1128826884?k=6&m=1128826884&s=170667a&w=0&h=F6kUwTcsLXUojmGFxN2wApEKgjx63zcIshCSOmnfEFs=" alt=""></label>
+                            <input type="file" name="photo" id="image-upload" style="display: none;" multiple />
+                            <div id="preview"></div>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Upload</button>
+                        </form>
                     </div>
                 </div>
             </div>
